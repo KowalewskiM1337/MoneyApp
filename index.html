@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MoneyApp</title>
+
+    <link rel="stylesheet" href="style/style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-brand">
+        <span class="logo-icon">💸</span>
+        <strong>MoneyApp</strong>
+      </div>
+
+      <div class="nav-actions">
+        <div class="group-select-wrapper">
+          <label for="group-select">Aktywna grupa:</label>
+          <select id="group-select">
+            <option value="default">Wyjście na miasto</option>
+          </select>
+        </div>
+
+        <button id="btn-modal-new-group" class="btn btn-sm btn-outline">
+          + Nowa grupa
+        </button>
+      </div>
+    </nav>
+
+    <main class="container">
+      <header class="group-header">
+        <div>
+          <h1 id="current-group-title">Wyjście na miasto</h1>
+          <p class="subtitle">Zarządzaj uczestnikami i wpisuj rozliczenia</p>
+        </div>
+        <button id="btn-delete-group" class="btn btn-danger-text">
+          Usuń tę grupę
+        </button>
+      </header>
+
+      <div class="grid-layout">
+        <section class="box">
+          <h2>Uczestnicy grupy</h2>
+
+          <form id="add-member-form" class="inline-form">
+            <input
+              type="text"
+              id="new-member-name"
+              placeholder="Imię nowego członka..."
+              required
+            />
+            <button type="submit" class="btn btn-primary">Dodaj</button>
+          </form>
+
+          <ul id="members-list" class="badge-list">
+            <li class="badge">
+              <span>Michał (Admin)</span>
+            </li>
+            <li class="badge">
+              <span>Koleżanka</span>
+              <button class="remove-btn" title="Usuń">&times;</button>
+            </li>
+          </ul>
+        </section>
+
+        <section class="box">
+          <h2>Dodaj rozliczenie</h2>
+          <form id="debt-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="debt-from">Kto oddaje:</label>
+                <select id="debt-from" required>
+                  <option value="Koleżanka">Koleżanka</option>
+                  <option value="Michał">Michał</option>
+                </select>
+              </div>
+
+              <div class="arrow-divider">➔</div>
+
+              <div class="form-group">
+                <label for="debt-to">Komu:</label>
+                <select id="debt-to" required>
+                  <option value="Michał">Michał</option>
+                  <option value="Koleżanka">Koleżanka</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="debt-amount">Kwota (zł):</label>
+              <input
+                type="number"
+                id="debt-amount"
+                step="0.01"
+                min="0.01"
+                placeholder="np. 45.50"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="debt-title">Tytułem (opcjonalnie):</label>
+              <input
+                type="text"
+                id="debt-title"
+                placeholder="np. Za pizzę, Ubera"
+              />
+            </div>
+
+            <button type="submit" class="btn btn-primary full-btn">
+              Zapisz rozliczenie
+            </button>
+          </form>
+        </section>
+
+        <section class="box full-width">
+          <h2>Historia i bieżące zobowiązania</h2>
+          <div id="debts-container">
+            <ul id="debts-list" class="custom-list">
+              <li class="debt-item">
+                <div class="debt-info">
+                  <strong>Koleżanka</strong> ma oddać <strong>Michałowi</strong>
+                  <span class="debt-title-tag">za pizzę</span>
+                </div>
+                <div class="debt-actions">
+                  <span class="amount-tag">45.50 zł</span>
+                  <button class="btn btn-sm btn-outline">Edytuj</button>
+                  <button class="btn btn-sm btn-danger-text">Rozliczone</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
