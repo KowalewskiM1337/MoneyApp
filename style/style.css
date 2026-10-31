@@ -12,7 +12,6 @@ body {
   line-height: 1.5;
 }
 
-/* --- Górny pasek (Navbar) --- */
 .navbar {
   background-color: #ffffff;
   border-bottom: 1px solid #e2e8f0;
@@ -64,7 +63,6 @@ select:focus {
   border-color: #2563eb;
 }
 
-/* --- Układ strony --- */
 .container {
   max-width: 980px;
   margin: 30px auto;
@@ -107,7 +105,6 @@ select:focus {
   }
 }
 
-/* --- Kafelki (Karty) --- */
 .box {
   background: #ffffff;
   border: 1px solid #e2e8f0;
@@ -125,7 +122,6 @@ select:focus {
   border-bottom: 1px solid #f1f5f9;
 }
 
-/* --- Formularze --- */
 .form-group {
   margin-bottom: 14px;
   flex: 1;
@@ -172,7 +168,6 @@ input:focus {
   margin-bottom: 16px;
 }
 
-/* --- Przyciski --- */
 .btn {
   padding: 9px 16px;
   border-radius: 8px;
@@ -225,7 +220,6 @@ input:focus {
   margin-top: 10px;
 }
 
-/* --- Lista członków (tagi / badges) --- */
 .badge-list {
   display: flex;
   flex-wrap: wrap;
@@ -257,7 +251,6 @@ input:focus {
   color: #ef4444;
 }
 
-/* --- Lista rozliczeń --- */
 .custom-list {
   list-style: none;
   display: flex;
