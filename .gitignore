@@ -1,0 +1,5 @@
+# Python
+*.db
+backend/moneyapp.db
+venv/
+__pycache__/
