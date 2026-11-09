@@ -6,15 +6,20 @@ po czym dodać do niej swoich znajomych i ustalić kto, komu i ile powinien odda
 Zespół: Michał Kowalewski (KowalewskiM1337), Martyna Oleszczuk (@hisumii)
 
 Podział: -
--- Michał : Szata graficzna (HTML + CSS), Backend (JavaScript), Baza danych (SQL + Python)
--- Martyna : Backend (JavaScript + React)
+-- Michał : Szata graficzna (HTML + CSS), Baza danych (SQL + Python)
+-- Martyna : Backend (React)
 
 Technologia: - HTML + CSS - JavaScript + React
 
 Funkcje:
 
 - Co robi użytkownik:
-  -- Tworzy grupę, wpisuje i dodaje użytkowników, decyduje kto, komu i ile ma oddać, dodaje tytuł(opcjonalnie), zapisuje rozliczenie, usuwa grupę
+  -- Tworzenie, przełącznie i usuwanie grupy
+  -- Dodanie i usuwanie uczestników
+  -- Dodawanie rozliczenia (kto komu, kwota, tytuł)
+  -- Edycja i oznaczenie rozliczenia jako rozliczone
+  -- Saldo grupy (Kto ile jest winien łącznie)
+  -- Trwały zapis danych (API backend)
 
 - Widok:
 - Dane:
