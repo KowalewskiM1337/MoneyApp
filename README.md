@@ -5,7 +5,9 @@ po czym dodać do niej swoich znajomych i ustalić kto, komu i ile powinien odda
 
 Zespół: Michał Kowalewski (KowalewskiM1337), Martyna Oleszczuk (@hisumii)
 
-Podział: - Michał : Szata graficzna (HTML + CSS), Backend (JavaScript) - Martyna : Backend (JavaScript + React)
+Podział: -
+-- Michał : Szata graficzna (HTML + CSS), Backend (JavaScript), Baza danych (SQL + Python)
+-- Martyna : Backend (JavaScript + React)
 
 Technologia: - HTML + CSS - JavaScript + React
 
