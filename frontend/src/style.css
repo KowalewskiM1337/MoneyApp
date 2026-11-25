@@ -6,7 +6,7 @@
 
 body {
   font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background-color: #f8fafc;
   color: #1e293b;
   line-height: 1.5;
@@ -22,6 +22,8 @@ body {
   position: sticky;
   top: 0;
   z-index: 10;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .nav-brand {
@@ -37,6 +39,7 @@ body {
   display: flex;
   align-items: center;
   gap: 16px;
+  flex-wrap: wrap;
 }
 
 .group-select-wrapper {
@@ -48,6 +51,10 @@ body {
   color: #475569;
 }
 
+.group-select-wrapper label {
+  margin-bottom: 0;
+}
+
 select {
   padding: 8px 12px;
   border-radius: 8px;
@@ -57,6 +64,10 @@ select {
   font-size: 14px;
   outline: none;
   cursor: pointer;
+}
+
+.form-group select {
+  width: 100%;
 }
 
 select:focus {
@@ -178,12 +189,17 @@ input:focus {
   transition: all 0.15s ease;
 }
 
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .btn-primary {
   background-color: #2563eb;
   color: #ffffff;
 }
 
-.btn-primary:hover {
+.btn-primary:hover:not(:disabled) {
   background-color: #1d4ed8;
 }
 
@@ -266,6 +282,8 @@ input:focus {
   background-color: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .debt-title-tag {
@@ -288,4 +306,83 @@ input:focus {
   padding: 4px 8px;
   border-radius: 6px;
   font-size: 14px;
+}
+
+/* Rozszerzenia pod historię rozliczonych wpisów, podsumowanie sald i modale */
+.debt-item.settled {
+  opacity: 0.6;
+  background-color: #f1f5f9;
+}
+
+.debt-item.settled .amount-tag {
+  text-decoration: line-through;
+  color: #64748b;
+}
+
+.settled-badge {
+  margin-left: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: #dcfce7;
+  color: #15803d;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.summary-amount {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.empty-text {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.error-alert {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+}
+
+.modal-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.modal-box h2 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: #0f172a;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
 }
