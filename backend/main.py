@@ -7,7 +7,7 @@ from pydantic import BaseModel
 
 app = FastAPI(title="MoneyApp API")
 
-# Zezwolenie na zapytania z frontendu (CORS)
+#tworzenie apki webowej, pozwolenie jej na tworzenie żądań (get, delete itp.) i różnych nagłówków
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -15,10 +15,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-DB_NAME = os.getenv("DB_PATH", "moneyapp.db")
+DB_NAME = os.getenv("DB_PATH", "moneyapp.db") #pobranie ścieżki do pliku bazy danych a jesli jej nie ma używanie lokalnego pliku
 
 
-# Modele danych wejściowych
+#modele danych wejściowych
 class GroupCreate(BaseModel):
     name: str
 
@@ -34,18 +34,18 @@ class DebtPayload(BaseModel):
     title: Optional[str] = ""
 
 
-# Utworzenie połączenia z bazą SQLite
+#tworzenie połączenia z bazą SQLite
 def get_db():
     db_dir = os.path.dirname(DB_NAME)
     if db_dir:
-        os.makedirs(db_dir, exist_ok=True)
-    conn = sqlite3.connect(DB_NAME)
-    conn.row_factory = sqlite3.Row
-    conn.execute("PRAGMA foreign_keys = ON")
+        os.makedirs(db_dir, exist_ok=True) #tworzene katalogów dla pliku bazy jesli nie istnieja
+    conn = sqlite3.connect(DB_NAME) #otwiera polaczenie z baza sqlite
+    conn.row_factory = sqlite3.Row #zapytania mzna czytac po nazwie kolumny nie tylko po indeksie
+    conn.execute("PRAGMA foreign_keys = ON") #wymusza dzialanie kluczy obcych i usuwania w sqlite
     return conn
 
 
-# Inicjalizacja tabel i danych startowych przy pierwszym uruchomieniu
+#wywolana przy starcie modulu, tworzy tabele (groups, members, debts jesli nie istnieja)
 def init_db():
     is_new_db = not os.path.exists(DB_NAME)
     with get_db() as conn:
@@ -76,7 +76,7 @@ def init_db():
             )
         """)
 
-        # Przykładowa grupa startowa tylko przy tworzeniu nowej bazy
+        #przykładowa grupa startowa tylko przy tworzeniu nowej bazy
         if is_new_db:
             cursor = conn.execute(
                 "INSERT INTO groups (name) VALUES (?)", ("Wyjście na miasto",)
@@ -95,16 +95,16 @@ def init_db():
 init_db()
 
 
-# --- GRUPY ---
+#grupy!!!!!!!
 
-@app.get("/api/groups")
+@app.get("/api/groups") #zwraca liste grup posortowana rosnaco po id
 def get_groups():
     with get_db() as conn:
         rows = conn.execute("SELECT * FROM groups ORDER BY id ASC").fetchall()
         return [dict(row) for row in rows]
 
 
-@app.post("/api/groups")
+@app.post("/api/groups") #odrzuca puste nazwy, wrzuca grupe do sqlite
 def create_group(payload: GroupCreate):
     name = payload.name.strip()
     if not name:
@@ -115,15 +115,15 @@ def create_group(payload: GroupCreate):
 
 
 @app.delete("/api/groups/{group_id}")
-def delete_group(group_id: int):
+def delete_group(group_id: int): #usuwa grupe
     with get_db() as conn:
         conn.execute("DELETE FROM groups WHERE id = ?", (group_id,))
         return {"message": "Usunięto grupę"}
 
 
-# --- UCZESTNICY GRUPY ---
+#uczestnicy!!!!!!!!!!
 
-@app.get("/api/groups/{group_id}/members")
+@app.get("/api/groups/{group_id}/members") #pobieranie uczestnikow przypisanych do ich konretnych grup
 def get_members(group_id: int):
     with get_db() as conn:
         rows = conn.execute(
@@ -132,7 +132,7 @@ def get_members(group_id: int):
         return [dict(row) for row in rows]
 
 
-@app.post("/api/groups/{group_id}/members")
+@app.post("/api/groups/{group_id}/members") #spradzanie czy jakis uczestnik sie nie powtarza w grupie jesli tak to odrzuca
 def add_member(group_id: int, payload: MemberCreate):
     name = payload.name.strip()
     if not name:
@@ -152,8 +152,8 @@ def add_member(group_id: int, payload: MemberCreate):
         return {"id": cursor.lastrowid, "group_id": group_id, "name": name}
 
 
-@app.delete("/api/members/{member_id}")
-def delete_member(member_id: int):
+@app.delete("/api/members/{member_id}") #sprawdza czy uzytkownik istnieje, sprawdza czy nie ma dlugow przy imieniu, jesli ma to nie mozna usunac
+def delete_member(member_id: int): 
     with get_db() as conn:
         member = conn.execute(
             "SELECT * FROM members WHERE id = ?", (member_id,)
@@ -161,7 +161,7 @@ def delete_member(member_id: int):
         if not member:
             raise HTTPException(status_code=404, detail="Nie znaleziono uczestnika.")
 
-        # Blokada usunięcia osoby z aktywnymi długami w tej grupie
+        #blokada usunięcia osoby z aktywnymi długami w tej grupie
         active_debt = conn.execute(
             """
             SELECT id FROM debts
@@ -180,9 +180,9 @@ def delete_member(member_id: int):
         return {"message": "Usunięto uczestnika"}
 
 
-# --- ROZLICZENIA (DŁUGI) ---
+#dlugi!!!!!!!!!!!!
 
-@app.get("/api/groups/{group_id}/debts")
+@app.get("/api/groups/{group_id}/debts") #pokazuje jakie dlugi w grupie
 def get_debts(group_id: int):
     with get_db() as conn:
         rows = conn.execute(
@@ -192,12 +192,12 @@ def get_debts(group_id: int):
         return [dict(row) for row in rows]
 
 
-@app.post("/api/groups/{group_id}/debts")
+@app.post("/api/groups/{group_id}/debts") 
 def add_debt(group_id: int, payload: DebtPayload):
     debt_from = payload.debt_from.strip()
-    debt_to = payload.debt_to.strip()
+    debt_to = payload.debt_to.strip() 
     title = (payload.title or "").strip()
-    amount = round(float(payload.amount), 2)
+    amount = round(float(payload.amount), 2) #zaokragla kwote
 
     if not debt_from or not debt_to:
         raise HTTPException(status_code=400, detail="Wybierz obie osoby.")
@@ -258,7 +258,7 @@ def delete_debt(debt_id: int):
         return {"message": "Usunięto wpis"}
 
 
-# --- PODSUMOWANIE SALD (KTO KOMU ŁĄCZNIE ILE MA ODDAĆ) ---
+#kto komu ma ile oddac!!!!!!!!!!!
 
 @app.get("/api/groups/{group_id}/summary")
 def get_summary(group_id: int):
@@ -268,7 +268,7 @@ def get_summary(group_id: int):
             (group_id,),
         ).fetchall()
 
-    # Bilans netto każdej osoby: ujemny = musi oddać, dodatni = ma otrzymać
+    #bilans
     balances = {}
     for row in rows:
         balances[row["debt_from"]] = balances.get(row["debt_from"], 0.0) - row["amount"]
